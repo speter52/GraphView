@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>GraphView</title>
+
+  <!-- Bootstrap Core CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" >
+
+  <!-- Custom CSS -->
+  <link href="assets/css/sb-admin.css" rel="stylesheet">
+
+  <!-- Custom Fonts -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <!-- Support IE later?
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+</head>
+<script src="assets/bower_components/socket.io-client/socket.io.js"></script>
+<script>
+  var socket = io.connect();
+</script>
+
+<body ng-app="GraphviewApp">
+
+<div id="wrapper">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">GraphView</a>
+    </div>
+    <!-- Top Menu Items -->
+    <ul class="nav navbar-right top-nav">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> User <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
+          </li>
+          <li>
+            <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav side-nav">
+        <li class="active">
+          <a href="graphview"><i class="fa fa-fw fa-dashboard"></i> Run Algorithm</a>
+        </li>
+        <li>
+          <a href="#"><i class="fa fa-fw fa-area-chart"></i> Graph Creator</a>
+        </li>
+        <li>
+          <a href="#"><i class="fa fa-fw fa-table"></i> System Input</a>
+        </li>
+      </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+  </nav>
+
+  <div id="page-wrapper">
+
+    <div class="container-fluid">
+
+      <!-- Page Heading -->
+      <div class="row">
+        <div class="col-lg-12">
+          <h1 class="page-header">
+            Run Algorithm <small></small>
+          </h1>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-lg-12">
+
+          <h3><a href="#node-behavior" name="node-behavior"></a>Node Behavior</h3>
+          <p>How each node should process is work defined by implementing the abstract functions startNode() and processResponse(), and also comes with additional functions that should help make defining the node behavior straightforward.</p>
+          <p>What the node should do to begin procressing work is defined in startNode(). That is the first function that gets executed once the node receives a Start message from the network indicating all the other nodes are ready. The variable iterationMax should be set here and determines the maximum number of iterations the system should execute. After that, the node will execute the code in processResponse() everytime it receives a message from a neighbor.</p>
+          <h3><a href="#helper-functions" name="helper-functions"></a>Helper Functions</h3>
+          <p><code>int selfID</code> : The ID of this node.</p>
+          <p><code>int iterationNumber</code> : The iteration counter that must be incremented everytime an iteration is complete. Initialized to 0.</p>
+          <p><code>int iterationMax</code> : The maximum number of iterations that should be executed. For now, it must be set in startNode().</p>
+          <p><code>List&lt;Integer&gt; neighbors</code> : A list of the ID's of the neighbors to this node. neighbors.size() can used to find the number of neighbors.</p>
+          <p><code>Object getState(String key)</code> : Returns the value of a state variable, and null if not present. The value needs to be casted to the appropriate type.</p>
+          <p><code>void setState(String key, Object value)</code> : Updates the value of a state variable, or adds it if not already present.</p>
+          <p><code>void sendValueToNeighbors(String key, Object value)</code> : Sends the corresponding key and value to all its neighbors.</p>
+          <p><code>void sendAllValuesToNeighbors()</code> : Sends all the keys and values of this node to all of its neighbors.</p>
+
+          <!-- TODO: Move codemirror sources to bottom of page without codebox width not being formatted incorrectly -->
+          <script src="assets/bower_components/codemirror/lib/codemirror.js"></script>
+          <link rel="stylesheet" href="assets/bower_components/codemirror/lib/codemirror.css">
+          <script src="assets/bower_components/codemirror/mode/clike/clike.js"></script>
+          <script src="assets/bower_components/codemirror/addon/edit/matchbrackets.js"></script>
+
+          <div class="panel panel-yellow">
+            <div class="panel-heading">
+              <h3 class="panel-title"><i class="fa fa-terminal fa-fw"></i> Input Algorithm</h3>
+            </div>
+            <div class="panel-body">
+              <div><textarea id="input-algorithm">
+/**
+* This function determines what the node will do when it first begins to start processing work.
+*/
+@Override
+protected void startNode()
+{
+  // Insert code here.
+}
+
+/**
+* This function determines what the node will do when it receives a message from another node.
+*/
+@Override
+protected void processResponse(Message incomingMessage)
+{
+  // Insert code here.
+  // iterationNumber++; //Increment iterationNumber to indicate when one iteration is complete.
+}
+              </textarea></div>
+            </div>
+          </div>
+
+          <!-- Move codebox js to separate file without incorrectly formatting it in panel -->
+          <script>
+            var editor = CodeMirror.fromTextArea(document.getElementById("input-algorithm"), {
+              lineNumbers: true,
+              matchBrackets: true,
+              mode: "text/x-java",
+            });
+          </script>
+
+          <button id="runButton" type="button" class="btn btn-lg btn-success" style="margin-bottom: 15px;">Run</button>
+
+          <script>
+            document.getElementById('runButton').onclick = sendCode;
+
+            function sendCode(){
+              socket.emit('runAlgorithm', editor.getValue())
+            }
+
+            socket.on('runComplete', function(msg){
+              console.log("algorithm complete");
+
+              g = new Dygraph(
+
+                // containing div
+                document.getElementById("output-graph"),
+
+                msg,
+                {
+                  labels: ['Iteration Number', 'State Value'],
+                  xlabel: 'Iteration Number',
+                  ylabel: 'State Value',
+                  title: 'Algorithm Consensus',
+                  animatedZooms : true
+                }
+
+              );
+            });
+          </script>
+
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title"><i class="fa fa-area-chart fa-fw"></i> Network Output</h3>
+            </div>
+            <div class="panel-body">
+              <div ng-controller="OutputGraphCtrl" id="output-graph" style="height:100%;width:100%;min-height: 400px;"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.container-fluid -->
+
+  </div>
+  <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- Placed at the end of the document so the pages load faster -->
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.1/dygraph-combined.js"></script>
+<!--<script src="assets/js/grapher.js"></script>-->
+
+</body>
+
+</html>
