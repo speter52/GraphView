@@ -102,8 +102,8 @@
         <div class="col-lg-12">
 
           <h3><a href="#node-behavior" name="node-behavior"></a>Node Behavior</h3>
-          <p>How each node should process is work defined by implementing the abstract functions startNode() and processResponse(), and also comes with additional functions that should help make defining the node behavior straightforward.</p>
-          <p>What the node should do to begin procressing work is defined in startNode(). That is the first function that gets executed once the node receives a Start message from the network indicating all the other nodes are ready. The variable iterationMax should be set here and determines the maximum number of iterations the system should execute. After that, the node will execute the code in processResponse() everytime it receives a message from a neighbor.</p>
+          <p>How each node should work is defined by implementing the abstract functions startNode() and processResponse(). There are also additional functions listed below that should help make defining the node behavior straightforward.</p>
+          <p>What the node should do to start procressing work is defined in startNode(). That is the first function that gets executed once the node receives a Start message from the network indicating all the other nodes are ready. The variable iterationMax should be set here and determines the maximum number of iterations the system should execute. After that, the node will execute the code in processResponse() everytime it receives a message from a neighbor until the maximum number of iterations are completed.</p>
           <h3><a href="#helper-functions" name="helper-functions"></a>Helper Functions</h3>
           <p><code>int selfID</code> : The ID of this node.</p>
           <p><code>int iterationNumber</code> : The iteration counter that must be incremented everytime an iteration is complete. Initialized to 0.</p>
@@ -148,7 +148,7 @@ protected void processResponse(Message incomingMessage)
             </div>
           </div>
 
-          <!-- Move codebox js to separate file without incorrectly formatting it in panel -->
+          <!-- TODO: Move codebox code to separate file without incorrectly formatting it in panel -->
           <script>
             var editor = CodeMirror.fromTextArea(document.getElementById("input-algorithm"), {
               lineNumbers: true,
@@ -159,6 +159,7 @@ protected void processResponse(Message incomingMessage)
 
           <button id="runButton" type="button" class="btn btn-lg btn-success" style="margin-bottom: 15px;">Run</button>
 
+          <!-- TODO: Move graphing script to separate file -->
           <script>
             document.getElementById('runButton').onclick = sendCode;
 

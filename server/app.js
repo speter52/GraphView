@@ -5,8 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-//var routes = require('./routes');
-
 var app = express();
 
 var debug = require('debug')('GraphView:server');
@@ -28,7 +26,6 @@ server.on('listening', onListening);
 /**
  * Event listener for HTTP server "listening" event.
  */
-
 function onListening() {
   var addr = server.address();
   var bind = typeof addr === 'string'
@@ -50,7 +47,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../client')));
 
 
-// TODO: Passing app to routes module, proper structure?
+// TODO: Passing app early to routes module, proper practice?
 module.exports = app;
 require('./routes');
 

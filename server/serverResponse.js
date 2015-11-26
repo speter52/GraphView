@@ -1,10 +1,11 @@
- /*
- Upon receiving the user code for each node, compile the java project with the new input and then run it.
- Once it is complete, pull the appropriate data form the database and push it to the client.
- */
 var app = require('./app.js');
 var io = app.io;
 
+/**
+ * Upon receiving the user-inputed algorithm, the server compiles the code against the GraphSim project. If it
+ * compiles, the project is run until all the iterations are complete, after which the results are pushed to
+ * the MySQL database. Then the server pull the results from the database and pushed it to the client.
+ */
 io.on('connection', function(socket){
     socket.on('runAlgorithm', function(msg){
         var fs = require("fs");
