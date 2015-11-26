@@ -12,7 +12,7 @@ The webapp requires node and bower to already be installed.
 
 To build the server-side dependencies, run `npm install` in the root folder of the project. To build the client-side dependencies, run `bower install` also from the root folder. Then run `npm start` to start the server.
 
-To link the webapp with the core java application, add the path to the root folder of the GraphSim project in `/Server/core-info.js`.
+To link the webapp with the core java application, add the path to the root folder of the GraphSim project in `/server/core-info.js`.
 
 ## Components
 
