@@ -1,11 +1,16 @@
-var express = require('express');
-var router = express.Router();
 var path = require('path');
+var app = require('./app.js');
 
-
-/* GET home page. */
-router.get('/', function(req, res) {
-  res.sendFile(path.resolve('client/graphview.html'));
+app.get('/graphview',function(req, res) {
+    res.sendFile(path.resolve('client/graphview.html'));
 });
 
-module.exports = router;
+app.get('/graphcreator',function(req, res) {
+    res.sendFile(path.resolve('client/graphcreator.html'));
+});
+
+// TODO: Ideally the following route would be used to pass parameters to the angular routing module, but
+// TODO: having issues with loading the partial templates.
+app.get('/*',function(req, res) {
+    res.sendFile(path.resolve('client/index.html'));
+});
