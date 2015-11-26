@@ -17,7 +17,7 @@ var server = http.createServer(app);
 
 var io = require('socket.io').listen(server);
 module.exports.io = io;
-require('./serverResponse');
+require('./server-response');
 
 server.listen(port);
 //server.on('error', onError);

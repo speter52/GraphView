@@ -17,8 +17,8 @@ io.on('connection', function(socket){
             // Append the user inputted code to the node class
             var customNodeCode = data.replace(/\r?\n|\r/g,'') + msg + '}';
 
-            var pathToProject = '/home/speter-toshiba/Data/CS/cs499-Thesis/SeniorThesis/';
-            var pathToNodeClass = pathToProject + 'src/com/Network/CustomNode.java';
+            var pathToCore = require('./core-info.js');
+            var pathToNodeClass = pathToCore + 'src/com/Network/CustomNode.java';
 
             // Delete the old node file and write the latest one
             fs.unlink(pathToNodeClass, function(err){
@@ -29,7 +29,7 @@ io.on('connection', function(socket){
 
                     // Build and run the java project
                     var spawn = require('child_process').spawn,
-                        buildAndRun = spawn('sh',['build_and_run.sh', 'GraphInputs/Lili-InputGraph.yml'], {cwd:pathToProject});
+                        buildAndRun = spawn('sh',['build_and_run.sh', 'GraphInputs/Lili-InputGraph.yml'], {cwd:pathToCore});
 
                     // TODO: Use later to print console output to gui?
                     buildAndRun.stdout.on('data', function (data) {
@@ -40,7 +40,7 @@ io.on('connection', function(socket){
                     buildAndRun.stdout.on('end', function(){
                         console.log("Algorithm finished.");
 
-                        var connection = require('./database.js');
+                        var connection = require('./database-info.js');
 
                         connection.query("SELECT * FROM StateValues ORDER BY IterationNumber", function(err, rows){
                             var transformedRows = [];
@@ -53,6 +53,8 @@ io.on('connection', function(socket){
                             }
 
                             io.to(socket.id).emit('runComplete', transformedRows);
+
+                            console.log("Sent results to client.")
                         })
                     })
                 })
