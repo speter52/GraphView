@@ -6,6 +6,14 @@ The project is split into two parts -  the core java application that will creat
 
 This is the repository for the webapp, the source code for the java application can be found here - https://github.com/speter52/GraphSim
 
+## Intializing the System
+
+The webapp requires node and bower to already be installed.
+
+To build the server-side dependencies, run `npm install` in the root folder of the project. To build the client-side dependencies, run `bower install` also from the root folder. Then run `npm start` to start the server.
+
+To link the webapp with the core java application, add the path to the root folder of the GraphSim project in `/Server/core-info.js`.
+
 ## Components
 
 The primary module will allow the user to enter his code into a text editor and then submit it to the server. If the code compiles, the server will run the application and display the console output to the client. If it doesn't compile, the line number where the error occured will be pointed out.
