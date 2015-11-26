@@ -13,3 +13,5 @@ The primary module will allow the user to enter his code into a text editor and 
 There's a second module to allow the user to specify how the network should be laid out. It will make it easy to rapidly create a large network of nodes under different configurations.
 
 The final module is a way to compare the performances of different algorithms. The user can specify which state values and nodes should be selected from different algorithms, and then be able to visualize them side-by-side on an interactive graph. I've chosen DyGraphs to visualize the data since it is capable of handling large datasets quickly and efficiently.
+
+## More Details to Follow....
