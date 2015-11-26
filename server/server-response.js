@@ -17,7 +17,7 @@ io.on('connection', function(socket){
             // Append the user inputted code to the node class
             var customNodeCode = data.replace(/\r?\n|\r/g,'') + msg + '}';
 
-            var pathToCore = require('./core-info.js');
+            var pathToCore = require('./config/core-info.js');
             var pathToNodeClass = pathToCore + 'src/com/Network/CustomNode.java';
 
             // Delete the old node file and write the latest one
@@ -40,7 +40,7 @@ io.on('connection', function(socket){
                     buildAndRun.stdout.on('end', function(){
                         console.log("Algorithm finished.");
 
-                        var connection = require('./database-info.js');
+                        var connection = require('./config/database-info.js');
 
                         connection.query("SELECT * FROM StateValues ORDER BY IterationNumber", function(err, rows){
                             var transformedRows = [];
