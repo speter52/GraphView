@@ -15,6 +15,7 @@
 
   <!-- Custom CSS -->
   <link href="assets/css/sb-admin.css" rel="stylesheet">
+  <link href="assets/css/spinner.css" rel="stylesheet">
 
   <!-- Custom Fonts -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -164,10 +165,15 @@ protected void processResponse(Message incomingMessage)
             document.getElementById('runButton').onclick = sendCode;
 
             function sendCode(){
+              // TODO: Create and destroy ball instead of hiding and unhiding
+              document.getElementById('ball').style.display = 'block';
+              document.getElementById('output-graph').style.display = 'none';
               socket.emit('runAlgorithm', editor.getValue())
             }
 
             socket.on('runComplete', function(msg){
+              document.getElementById('ball').style.display = 'none';
+              document.getElementById('output-graph').style.display = 'block';
               console.log("algorithm complete");
 
               g = new Dygraph(
@@ -193,7 +199,13 @@ protected void processResponse(Message incomingMessage)
               <h3 class="panel-title"><i class="fa fa-area-chart fa-fw"></i> Network Output</h3>
             </div>
             <div class="panel-body">
-              <div ng-controller="OutputGraphCtrl" id="output-graph" style="height:100%;width:100%;min-height: 400px;"></div>
+              <div id="ball" style="display:none;">
+              <div class="spinner" >
+                <div class="double-bounce1"></div>
+                <div class="double-bounce2"></div>
+              </div>
+              </div>
+              <div ng-controller="OutputGraphCtrl" id="output-graph" style="display:block;height:100%;width:100%;min-height: 400px;"></div>
             </div>
           </div>
 
