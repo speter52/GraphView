@@ -8,10 +8,10 @@ graphviewApp.config(['$routeProvider',
     $routeProvider.
     when('/runalgorithm', {
       templateUrl: '../../runalgorithm.html',
-      controller:'testcontroller'
+      controller:'OutputGraphCtrl'
     });
   }]);
 
-graphviewApp.controller('testcontroller', function($scope){
+graphviewApp.controller('OutputGraphCtrl', function($scope){
   $scope.message = "test";
 });

@@ -10,11 +10,13 @@
 
   <title>GraphView</title>
 
+  <link rel="stylesheet" href="assets/bower_components/codemirror/lib/codemirror.css">
   <!-- Bootstrap Core CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" >
 
   <!-- Custom CSS -->
   <link href="assets/css/sb-admin.css" rel="stylesheet">
+  <link href="assets/css/spinner.css" rel="stylesheet">
 
   <!-- Custom Fonts -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -101,9 +103,15 @@
 
 <!-- Placed at the end of the document so the pages load faster -->
 <!-- Latest compiled and minified JavaScript -->
+<script src="assets/bower_components/jquery/dist/jquery.min.js"></script>
 <script src="assets/bower_components/angular/angular.min.js"></script>
 <script src="assets/bower_components/angular-route/angular-route.min.js"></script>
 <script src="assets/js/app.js"></script>
+<!-- TODO: Should only be loaded in runalgorithm.html, but can't load scripts in partial html's -->
+<script src="assets/bower_components/codemirror/lib/codemirror.js"></script>
+<script src="assets/bower_components/codemirror/mode/clike/clike.js"></script>
+<script src="assets/bower_components/codemirror/addon/edit/matchbrackets.js"></script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.1/dygraph-combined.js"></script>

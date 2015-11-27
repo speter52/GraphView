@@ -25,10 +25,12 @@
     <p><code>void sendAllValuesToNeighbors()</code> : Sends all the keys and values of this node to all of its neighbors.</p>
 
     <!-- TODO: Move codemirror sources to bottom of page without codebox width not being formatted incorrectly -->
-    <script src="assets/bower_components/codemirror/lib/codemirror.js"></script>
+    <!-- Included in index.html, having issues with loading script in partial html
     <link rel="stylesheet" href="assets/bower_components/codemirror/lib/codemirror.css">
+    <script src="assets/bower_components/codemirror/lib/codemirror.js"></script>
     <script src="assets/bower_components/codemirror/mode/clike/clike.js"></script>
     <script src="assets/bower_components/codemirror/addon/edit/matchbrackets.js"></script>
+    -->
 
     <div class="panel panel-yellow">
       <div class="panel-heading">
@@ -73,10 +75,15 @@ protected void processResponse(Message incomingMessage)
       document.getElementById('runButton').onclick = sendCode;
 
       function sendCode(){
+        // TODO: Create and destroy ball instead of hiding and unhiding
+        document.getElementById('ball').style.display = 'block';
+        document.getElementById('output-graph').style.display = 'none';
         socket.emit('runAlgorithm', editor.getValue())
       }
 
       socket.on('runComplete', function(msg){
+        document.getElementById('ball').style.display = 'none';
+        document.getElementById('output-graph').style.display = 'block';
         console.log("algorithm complete");
 
         g = new Dygraph(
@@ -102,7 +109,13 @@ protected void processResponse(Message incomingMessage)
         <h3 class="panel-title"><i class="fa fa-area-chart fa-fw"></i> Network Output</h3>
       </div>
       <div class="panel-body">
-        <div ng-controller="OutputGraphCtrl" id="output-graph" style="height:100%;width:100%;min-height: 400px;"></div>
+        <div id="ball" style="display:none;">
+          <div class="spinner" >
+              <div class="double-bounce1"></div>
+              <div class="double-bounce2"></div>
+          </div>
+        </div>
+        <div ng-controller="OutputGraphCtrl" id="output-graph" style="display:block;height:100%;width:100%;min-height: 400px;"></div>
       </div>
     </div>
 
