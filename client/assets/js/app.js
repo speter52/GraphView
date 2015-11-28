@@ -8,14 +8,14 @@ graphviewApp.config(['$routeProvider','$locationProvider',
   function($routeProvider, $locationProvider) {
     $routeProvider.
     when('/runalgorithm', {
-      templateUrl: '../../runalgorithm.html',
+      templateUrl: '../../partials/runalgorithm.html',
       controller:'OutputGraphCtrl'
     })
     .when('/creategraph',{
-      templateUrl: '../../creategraph.html'
+      templateUrl: '../../partials/creategraph.html'
     })
     .when('/configureinput',{
-      templateUrl: '../../configureinput.html'
+      templateUrl: '../../partials/configureinput.html'
     });
 
     $locationProvider.html5Mode(true);
