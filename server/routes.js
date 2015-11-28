@@ -14,6 +14,10 @@ app.get('/graphcreator',function(req, res) {
     res.sendFile(path.resolve('client/graphcreator.html'));
 });
 
+app.get('/test',function(req, res) {
+    res.sendFile(path.resolve('client/test.html'));
+});
+
 // TODO: Ideally the following route would be used to pass parameters to the angular routing module, but
 // TODO: having issues with loading the partial templates.
 app.get('/*',function(req, res) {

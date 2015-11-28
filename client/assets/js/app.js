@@ -4,8 +4,8 @@ var graphviewApp = angular.module('graphviewApp', [
 ]);
 
 // TODO: Can't get Angular to pick up the template URL's, only the layout index.html is displayed
-graphviewApp.config(['$routeProvider',
-  function($routeProvider) {
+graphviewApp.config(['$routeProvider','$locationProvider',
+  function($routeProvider, $locationProvider) {
     $routeProvider.
     when('/runalgorithm', {
       templateUrl: '../../runalgorithm.html',
@@ -17,6 +17,8 @@ graphviewApp.config(['$routeProvider',
     .when('/configureinput',{
       templateUrl: '../../configureinput.html'
     });
+
+    $locationProvider.html5Mode(true);
   }]);
 
 graphviewApp.controller('OutputGraphCtrl', function($scope){
