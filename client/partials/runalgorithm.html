@@ -1,3 +1,4 @@
+
 <!-- Page Heading -->
 <div class="row">
   <div class="col-lg-12">
@@ -24,14 +25,10 @@
     <p><code>void sendValueToNeighbors(String key, Object value)</code> : Sends the corresponding key and value to all its neighbors.</p>
     <p><code>void sendAllValuesToNeighbors()</code> : Sends all the keys and values of this node to all of its neighbors.</p>
 
-    <!-- TODO: Move codemirror sources to bottom of page without codebox width not being formatted incorrectly -->
-    <!-- Included in index.html, having issues with loading script in partial html
-    <link rel="stylesheet" href="assets/bower_components/codemirror/lib/codemirror.css">
-    <script src="assets/bower_components/codemirror/lib/codemirror.js"></script>
-    <script src="assets/bower_components/codemirror/mode/clike/clike.js"></script>
-    <script src="assets/bower_components/codemirror/addon/edit/matchbrackets.js"></script>
-    -->
-
+    <!-- TODO: Loading in partial gives synchronous XMLHttpRequest  -->
+    <script src="../assets/bower_components/codemirror/lib/codemirror.js"></script>
+    <script src="../assets/bower_components/codemirror/mode/clike/clike.js"></script>
+    <script src="../assets/bower_components/codemirror/addon/edit/matchbrackets.js"></script>
     <div class="panel panel-yellow">
       <div class="panel-heading">
         <h3 class="panel-title"><i class="fa fa-terminal fa-fw"></i> Input Algorithm</h3>
@@ -71,40 +68,7 @@ protected void processResponse(Message incomingMessage)
 
     <button id="runButton" type="button" class="btn btn-lg btn-success" style="margin-bottom: 15px;">Run</button>
 
-    <script>
-      document.getElementById('runButton').onclick = sendCode;
-
-      function sendCode(){
-        // TODO: Figure out how to properly blur button?
-        this.blur();
-        // TODO: Create and destroy ball instead of hiding and unhiding
-        document.getElementById('ball').style.display = 'block';
-        document.getElementById('output-graph').style.display = 'none';
-        socket.emit('runAlgorithm', editor.getValue())
-      }
-
-      socket.on('runComplete', function(msg){
-        document.getElementById('ball').style.display = 'none';
-        document.getElementById('output-graph').style.display = 'block';
-        console.log("algorithm complete");
-
-        g = new Dygraph(
-
-          // containing div
-          document.getElementById("output-graph"),
-
-          msg,
-          {
-            labels: ['Iteration Number', 'State Value'],
-            xlabel: 'Iteration Number',
-            ylabel: 'State Value',
-            title: 'Algorithm Consensus',
-            animatedZooms : true
-          }
-
-        );
-      });
-    </script>
+    <script src="../assets/js/grapher.js"></script>
 
     <div class="panel panel-primary">
       <div class="panel-heading">
