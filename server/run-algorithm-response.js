@@ -1,6 +1,5 @@
 var app = require('./app.js');
 var io = app.io;
-
 /**
  * Gets the current date and time as a string used to create the MySQL table where the results are stored.
  * @returns {string}

@@ -14,7 +14,7 @@
 
     <h3>Node Behavior</h3>
     <p>How each node should process is work defined by implementing the two functions <code>startNode()</code> and <code>processResponse()</code>. What each node should do to begin processing work is defined by <code>startNode()</code>, it is the first function that gets executed once the node receives a start message from the network after it is initialized. After that, the node will execute <code>processResponse()</code> every time it receives a message from another node. The <code>iterationNumber</code> is the counter that should be incremented whenever one iteration is complete. This is how the system determines when it is done processing work.</p>
-    <p>Sample algorithms for finding the average value of a state variable across all the nodes in a system can be found here - <a href="http://www.github.com/speter52/GraphSim/GraphInputs/Algorithms">www.github.com/speter52/GraphSim/GraphInputs/Algorithms</a></p>
+    <p>Sample algorithms for finding the average value of a state variable across all the nodes in a system can be found <a href="https://github.com/speter52/GraphSim/tree/master/GraphInputs/Algorithms">here</a>.</p>
     <h3>Library Functions</h3>
     <p>These functions abstract common tasks for the system, like sending messages to other nodes and updating a node's state value.</p>
     <p><code>int selfID</code> : The ID of this node.</p>
@@ -54,7 +54,7 @@ protected void processResponse(Message incomingMessage)
   // Insert code here.
   // iterationNumber++; //Increment iterationNumber to indicate when one iteration is complete.
 }
-              </textarea></div>
+        </textarea></div>
       </div>
     </div>
 

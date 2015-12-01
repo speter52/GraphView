@@ -1,0 +1,100 @@
+<!-- Page Heading -->
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Initialize System <small></small>
+        </h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Number of Nodes in Network</label>
+                    <input id="numOfNodes" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Number of Partitions in Network</label>
+                    <input id="numOfPartitions" value="1" class="form-control">
+                    <p class="help-block">Partitions are groups of nodes that are linked by one edge.</p>
+                </div>
+                <div class="form-group">
+                    <label>Number of Neighbors for Each Node</label>
+                    <input id="numOfNeighbors" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>State Variables for Each Node</label>
+                    <input id="stateVariables" class="form-control">
+                    <p class="help-block">Enter comma-separated list of values that represent state variables of each node.</p>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="alert alert-success">
+                <div>
+                    <label>Initial State Value Function</label>
+                    <textarea id="init-value-function">
+/**
+ * Function that determines the value of each state variable given the ID
+ * if the node it is initializing.
+ * @param stateVariable Which variable to initialize
+ * @param nodeID Which node to initialize
+ * @return Initial value
+ */
+public static double calculateInitialValue(String stateVariable, int nodeID)
+{
+    switch (stateVariable){
+        // Insert code here - ex: case "x":
+
+        default: return 0;
+    }
+}
+                    </textarea>
+                </div>
+
+                <!-- TODO: Loading in partial gives synchronous XMLHttpRequest  -->
+                <script src="../assets/bower_components/codemirror/lib/codemirror.js"></script>
+                <script src="../assets/bower_components/codemirror/mode/clike/clike.js"></script>
+                    <script src="../assets/bower_components/codemirror/mode/yaml/yaml.js"></script>
+                <script src="../assets/bower_components/codemirror/addon/edit/matchbrackets.js"></script>
+                <!-- Move codebox js to separate file without incorrectly formatting it in panel -->
+                <script>
+                    var valueFunctionEditor = CodeMirror.fromTextArea(document.getElementById("init-value-function"), {
+                        lineNumbers: true,
+                        matchBrackets: true,
+                        mode: "text/x-java",
+                    });
+                </script>
+                </div>
+
+            </div>
+        </div>
+
+        <button id="generateButton" type="button" class="btn btn-lg btn-warning" style="margin-bottom: 15px;">Generate</button>
+
+        <script src="../assets/js/create-input.js"></script>
+
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-area-chart fa-fw"></i> Input Graph Representation</h3>
+            </div>
+            <div class="panel-body">
+                <div><textarea id="input-network-file">
+
+                </textarea></div>
+
+                <script>
+                    var inputFileEditor = CodeMirror.fromTextArea(document.getElementById("input-network-file"), {
+                        lineNumbers: true,
+                        matchBrackets: true,
+                        mode: "text/x-yaml",
+                    });
+                </script>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- /.row -->

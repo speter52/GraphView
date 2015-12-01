@@ -11,11 +11,11 @@ graphviewApp.config(['$routeProvider','$locationProvider',
       templateUrl: '../../partials/runalgorithm.html',
       controller:'OutputGraphCtrl'
     })
-    .when('/creategraph',{
-      templateUrl: '../../partials/creategraph.html'
+    .when('/creategraphs',{
+      templateUrl: '../../partials/creategraphs.html'
     })
-    .when('/configureinput',{
-      templateUrl: '../../partials/configureinput.html'
+    .when('/initsystem',{
+      templateUrl: '../../partials/initsystem.html'
     });
 
     $locationProvider.html5Mode(true);

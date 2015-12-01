@@ -17,7 +17,8 @@ var server = http.createServer(app);
 
 var io = require('socket.io').listen(server);
 module.exports.io = io;
-require('./server-response');
+require('./run-algorithm-response');
+require('./create-input-response');
 
 server.listen(port);
 //server.on('error', onError);
