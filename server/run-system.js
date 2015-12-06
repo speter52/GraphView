@@ -1,21 +1,5 @@
 var app = require('./app.js');
 var io = app.io;
-/**
- * Gets the current date and time as a string used to create the MySQL table where the results are stored.
- * @returns {string}
- */
-function getCurrentTime(){
-    var currentTime = new Date();
-
-    var algorithmRunName = 'd' + (currentTime.getMonth()+1) +
-        currentTime.getDate() +
-        currentTime.getFullYear() + 't' +
-        currentTime.getHours() +
-        currentTime.getMinutes() +
-        currentTime.getSeconds();
-
-    return algorithmRunName
-}
 
 /**
  * Transform the SQL results array so Dygraphs receives a list of pairs where each pair represents a point.
@@ -45,12 +29,14 @@ io.on('connection', function(socket){
     socket.on('runAlgorithm', function(msg){
         var fs = require("fs");
         var yaml = require('yamljs');
+        var time = require('./current-time.js');
 
         var pathToCore = require('./config/core-info.js');
         var pathToConfigFile = pathToCore + 'config.yml';
 
         yaml.load(pathToConfigFile, function(result){
-            var algorithmRunName = getCurrentTime();
+
+            var algorithmRunName = time.getCurrentTime();
 
             result.database_table = algorithmRunName;
 

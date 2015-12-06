@@ -5,7 +5,8 @@ var connection = mysql.createConnection({
   host: '127.0.0.1',
   user: 'java',
   password: 'password',
-  database: 'StateValues'
+  database: 'StateValues',
+  multipleStatements: true
 });
 
 module.exports = connection;

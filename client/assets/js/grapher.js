@@ -21,7 +21,6 @@ socket.on('runComplete', function(msg){
     console.log("algorithm complete");
 
     g = new Dygraph(
-
         // containing div
         document.getElementById("output-graph"),
 

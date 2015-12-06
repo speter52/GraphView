@@ -57,7 +57,7 @@ public static double calculateInitialValue(String stateVariable, int nodeID)
                 <!-- TODO: Loading in partial gives synchronous XMLHttpRequest  -->
                 <script src="../assets/bower_components/codemirror/lib/codemirror.js"></script>
                 <script src="../assets/bower_components/codemirror/mode/clike/clike.js"></script>
-                    <script src="../assets/bower_components/codemirror/mode/yaml/yaml.js"></script>
+                <script src="../assets/bower_components/codemirror/mode/yaml/yaml.js"></script>
                 <script src="../assets/bower_components/codemirror/addon/edit/matchbrackets.js"></script>
                 <!-- Move codebox js to separate file without incorrectly formatting it in panel -->
                 <script>
@@ -80,10 +80,10 @@ public static double calculateInitialValue(String stateVariable, int nodeID)
             <div class="panel-heading">
                 <h3 class="panel-title"><i class="fa fa-area-chart fa-fw"></i> Input Graph Representation</h3>
             </div>
-            <div class="panel-body">
-                <div><textarea id="input-network-file">
-
-                </textarea></div>
+            <!-- TODO: Figure out how to keep size of output box constant when generating input -->
+            <div class="panel-body" style="min-height: 200px;">
+                <div id="flipper" class="flipper" style="display: none;"></div>
+                <div id="codebox" style="height: 100%"><textarea id="input-network-file"></textarea></div>
 
                 <script>
                     var inputFileEditor = CodeMirror.fromTextArea(document.getElementById("input-network-file"), {
@@ -92,6 +92,21 @@ public static double calculateInitialValue(String stateVariable, int nodeID)
                         mode: "text/x-yaml",
                     });
                 </script>
+            </div>
+        </div>
+
+        <div class="row">
+            <!--TODO: Should this col be nested in the row, which is already nested in a col? -->
+            <div class="col-lg-12">
+                <form class="form-inline">
+                    <fieldset id="save-input-fields" disabled>
+                        <label for="input-name">Input Name</label>
+                        <div class="form-group">
+                            <input id="input-name" class="form-control" style="margin-left: 5px;">
+                        </div>
+                        <button id="saveButton" type="button" class="btn btn-lg btn-danger" style="margin-left: 10px;">Save</button>
+                    </fieldset>
+                </form>
             </div>
         </div>
 
