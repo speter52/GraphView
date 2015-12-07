@@ -11,12 +11,12 @@ io.on('connection', function(socket){
 
             var customInputCode = data.replace(/\r?\n|\r/g,'') + msg['stateValueFunction'] + '}';
 
-            var pathToInputClass = pathToCore + 'Tools/InputGenerator/NodeDataGenerator.java';
+            var pathToInputClass = pathToCore + 'Tools/InputGenerator/src/NodeDataGenerator.java';
 
             fs.writeFile(pathToInputClass, customInputCode, function(err) {
                 if (err) throw err;
 
-                console.log("Building generator.");
+                console.log("Building generator...");
 
                 var args = [];
 
@@ -83,10 +83,10 @@ io.on('connection', function(socket){
 
             var connection = require('./config/database-info.js');
 
-            var createTableStatement = "CREATE TABLE IF NOT EXISTS InputFiles(Name varchar(255), Path varchar(255));";
+            var createTableStatement = "CREATE TABLE IF NOT EXISTS InputFiles(FileName varchar(255));";
 
-            var insertInputStatement = 'INSERT INTO InputFiles (Name, Path) VALUES ("' +
-                                        fileName + '", "' + pathToFile + '");';
+            var insertInputStatement = 'INSERT INTO InputFiles (FileName) VALUES ("' +
+                                        fileName + '");';
 
             connection.query(createTableStatement + insertInputStatement, function(err){
                 if (err) throw err;

@@ -67,11 +67,20 @@ protected void processResponse(Message incomingMessage)
       });
     </script>
 
-    <button id="runButton" type="button" class="btn btn-lg btn-success" style="margin-bottom: 15px;">Run</button>
+    <div class="row">
+        <div class="col-lg-12">
+            <form class="form-inline">
+                <label for="layout-dropdown">Network Layout</label>
+                <!-- TODO: Bug - When empty, the dropdown is strangely cut-off -->
+                <select id="layout-dropdown" class="form-control"></select>
+                <button id="runButton" type="button" class="btn btn-lg btn-success" style="margin-left: 10px;">Run</button>
+            </form>
+        </div>
+    </div>
 
-    <script src="../assets/js/grapher.js"></script>
+    <script src="../assets/js/input-puller.js"></script>
 
-    <div class="panel panel-primary">
+    <div class="panel panel-primary" style="margin-top: 15px;">
       <div class="panel-heading">
         <h3 class="panel-title"><i class="fa fa-area-chart fa-fw"></i> Network Output</h3>
       </div>
@@ -86,6 +95,8 @@ protected void processResponse(Message incomingMessage)
         <div ng-controller="OutputGraphCtrl" id="output-graph" style="display:block;height:100%;width:100%;min-height: 400px;"></div>
       </div>
     </div>
+
+    <script src="../assets/js/grapher.js"></script>
 
   </div>
 </div>

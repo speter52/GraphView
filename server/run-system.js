@@ -6,7 +6,7 @@ var io = app.io;
  * @param sqlResults
  * @returns {Array}
  */
-function transformSQLResultsForGraph(sqlResults)
+function transformRunResultsForClient(sqlResults)
 {
     var transformedRows = [];
     // TODO: Perhaps push off transforming to client? Not sure if I'd be revealing too much of the db schema
@@ -50,16 +50,18 @@ io.on('connection', function(socket){
                     if(err) throw err;
 
                     // Append the user inputted code to the node class
-                    var customNodeCode = data.replace(/\r?\n|\r/g,'') + msg + '}';
+                    var customNodeCode = data.replace(/\r?\n|\r/g,'') + msg['CustomNodeCode'] + '}';
 
                     var pathToNodeClass = pathToCore + 'src/com/Network/CustomNode.java';
                     // Write new CustomNode class to file
                     fs.writeFile(pathToNodeClass, customNodeCode, function(err){
                         if(err) throw err;
 
+                        var inputFilePath = __dirname + '/' + msg['InputLayout'] + '.yml';
+
                         // Build and run the java project
                         var spawn = require('child_process').spawn,
-                            buildAndRun = spawn('sh',['build_and_run.sh', 'GraphInputs/Lili-InputGraph.yml'], {cwd:pathToCore});
+                            buildAndRun = spawn('sh',['build_and_run.sh', inputFilePath], {cwd:pathToCore});
 
                         // TODO: Use later to print console output to gui?
                         buildAndRun.stdout.on('data', function (data) {
@@ -81,18 +83,42 @@ io.on('connection', function(socket){
                                 "ORDER BY IterationNumber";
 
                             connection.query(selectStatement, function(err, rows){
-                                if(err) console.log("Error in retrieving results from database.");
+                                if(err) throw err;
 
-                                var transformedRows = transformSQLResultsForGraph(rows);
+                                var transformedRows = transformRunResultsForClient(rows);
 
                                 io.to(socket.id).emit('runComplete', transformedRows);
 
-                                console.log("Sent results to client.")
+                                console.log("Sent run results to client.")
                             })
                         })
                     })
                 })
             })
         });
+    });
+});
+
+
+io.on('connection', function(socket){
+    socket.on('getNetworkLayouts', function(msg){
+        var connection = require('./config/database-info.js');
+
+        var selectStatement = "SELECT FileName FROM InputFiles;"
+
+        connection.query(selectStatement, function(err, rows){
+            if(err) throw err;
+
+            var transformedInputList = [];
+
+            for(var i = 0; i< rows.length; i++)
+            {
+                transformedInputList.push(rows[i].FileName);
+            }
+
+            io.to(socket.id).emit('sentNetworkLayouts', transformedInputList);
+
+            console.log("Sent network layouts to client.")
+        })
     });
 });

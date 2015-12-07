@@ -9,7 +9,15 @@ function sendCode(){
     // TODO: Create and destroy ball instead of hiding and unhiding
     document.getElementById('ball').style.display = 'block';
     document.getElementById('output-graph').style.display = 'none';
-    socket.emit('runAlgorithm', editor.getValue())
+
+    var algorithmParameters = {};
+
+    var layoutDropdown = document.getElementById('layout-dropdown');
+    algorithmParameters['InputLayout'] = layoutDropdown.options[layoutDropdown.selectedIndex].value;
+
+    algorithmParameters['CustomNodeCode'] = editor.getValue();
+
+    socket.emit('runAlgorithm', algorithmParameters)
 }
 
 /**
