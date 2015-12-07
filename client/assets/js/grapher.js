@@ -15,6 +15,9 @@ function sendCode(){
     var layoutDropdown = document.getElementById('layout-dropdown');
     algorithmParameters['InputLayout'] = layoutDropdown.options[layoutDropdown.selectedIndex].value;
 
+    var numOfPartitions = document.getElementById('numOfIterations').value;
+    algorithmParameters['NumberOfIterations'] = numOfPartitions;
+
     algorithmParameters['CustomNodeCode'] = editor.getValue();
 
     socket.emit('runAlgorithm', algorithmParameters)
@@ -40,6 +43,5 @@ socket.on('runComplete', function(msg){
             title: 'Algorithm Consensus',
             animatedZooms : true
         }
-
     );
 });

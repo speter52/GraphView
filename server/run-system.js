@@ -61,7 +61,8 @@ io.on('connection', function(socket){
 
                         // Build and run the java project
                         var spawn = require('child_process').spawn,
-                            buildAndRun = spawn('sh',['build_and_run.sh', inputFilePath], {cwd:pathToCore});
+                            buildAndRun = spawn('sh',['build_and_run.sh', inputFilePath, msg['NumberOfIterations']],
+                                                {cwd:pathToCore});
 
                         // TODO: Use later to print console output to gui?
                         buildAndRun.stdout.on('data', function (data) {

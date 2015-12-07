@@ -73,6 +73,10 @@ protected void processResponse(Message incomingMessage)
                 <label for="layout-dropdown">Network Layout</label>
                 <!-- TODO: Bug - When empty, the dropdown is strangely cut-off -->
                 <select id="layout-dropdown" class="form-control"></select>
+                <div class="form-group" style="margin-left: 5px;">
+                    <label>Number of Iterations</label>
+                    <input id="numOfIterations" value="100" class="form-control">
+                </div>
                 <button id="runButton" type="button" class="btn btn-lg btn-success" style="margin-left: 10px;">Run</button>
             </form>
         </div>
