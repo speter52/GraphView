@@ -19,6 +19,7 @@ var io = require('socket.io').listen(server);
 module.exports.io = io;
 require('./run-system');
 require('./input-generator');
+require('./graph-generator');
 
 server.listen(port);
 //server.on('error', onError);

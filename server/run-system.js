@@ -79,9 +79,10 @@ io.on('connection', function(socket){
                             var nodeid = 0;
                             var statevariable = "x";
 
-                            var selectStatement = "SELECT IterationNumber, Value FROM " + algorithmRunName +
-                                " WHERE (Node=" +nodeid+" and StateVariable='"+statevariable+"') " +
-                                "ORDER BY IterationNumber";
+                            // TODO: Use SQL builder library for SQL commands
+                            var selectStatement = 'SELECT IterationNumber, Value FROM RunResults' +
+                                ' WHERE (RunName="' + algorithmRunName + '"  AND Node=' +nodeid+' AND StateVariable="'+statevariable+'") ' +
+                                'ORDER BY IterationNumber';
 
                             connection.query(selectStatement, function(err, rows){
                                 if(err) throw err;

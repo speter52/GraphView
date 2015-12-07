@@ -6,6 +6,5 @@ app.get('/',function(req, res) {
 });
 
 app.get('/*',function(req, res) {
-    console.log("going to angular");
     res.sendFile(path.resolve('client/index.html'));
 });

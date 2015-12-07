@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">
-            Graph Creator <small></small>
+            Create Graphs <small></small>
         </h1>
     </div>
 </div>
@@ -10,8 +10,32 @@
 <div class="row">
     <div class="col-lg-12">
 
-
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="form-group" >
+                    <label for="algorithm-runs">Algorithm Runs</label>
+                    <select id="algorithm-runs" multiple size="20" class="form-control">
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label for="state-variables">State Variables</label>
+                    <select id="state-variables" multiple size="20" class="form-control">
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label for="nodes">Nodes</label>
+                    <select id="nodes" multiple size="20" class="form-control">
+                    </select>
+                </div>
+            </div>
+        </div>
 
     </div>
 </div>
 <!-- /.row -->
+
+<script src="../assets/js/graph-parser.js"></script>
