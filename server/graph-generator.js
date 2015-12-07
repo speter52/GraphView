@@ -26,7 +26,7 @@ io.on('connection', function(socket){
     socket.on('getStateVariables', function(msg){
         var runsSelected = msg;
 
-        // TODO: TEMPORARY MESSY
+        // TODO: Return empty dictionary when nothing is selected
         var getStateVarStatement = "SELECT DISTINCT RunName,StateVariable FROM RunResults WHERE ;";
 
         for(var i = 0; i < runsSelected.length; i++)
@@ -41,7 +41,6 @@ io.on('connection', function(socket){
         connection.query(getStateVarStatement, function(err, stateVariableResults){
             if(err) throw err;
 
-            console.log(stateVariableResults);
             io.to(socket.id).emit('sentStateVariables', stateVariableResults);
         })
     })

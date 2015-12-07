@@ -35,9 +35,20 @@ function getStateVariables(){
 
     var runsSelected = getSelectedOptions(algorithmRunBox);
 
-    socket.emit('getStateVariables', runsSelected);
+    if(runsSelected == 0)
+    {
+        var stateVariableBox = document.getElementById('state-variables');
+
+        // TODO: Better way to reset box?
+        stateVariableBox.innerHTML = '';
+    }
+    else
+    {
+        socket.emit('getStateVariables', runsSelected);
+    }
 }
 
+// TODO: Figure out what do do when run names are unselected
 socket.on('sentStateVariables', function(msg){
     var stateVariableBox = document.getElementById('state-variables');
 
