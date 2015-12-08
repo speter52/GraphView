@@ -99,6 +99,8 @@ io.on('connection', function(socket){
             // TODO: Make sure client doesn't send non-null results; better way to initialize for loop?
             var currentRunName = runResults[0].RunName;
 
+            var labels = ["Iteration Number", currentRunName];
+
             for(var i = 0; i < runResults.length; i++)
             {
                 var currentResult = runResults[i];
@@ -110,17 +112,25 @@ io.on('connection', function(socket){
                     currentColumn++;
 
                     currentRunName = currentResult.RunName;
+
+                    labels.push(currentRunName);
                 }
 
-                if(currentColumn == 1) transformedRunResults.push([currentRow]);
+                // TODO: Figure out logic for data sets of different sizes
+                if(currentColumn == 1 || currentRow ) transformedRunResults.push([currentRow]);
 
                 transformedRunResults[currentRow].push(currentResult.Value);
 
                 currentRow++;
             }
 
-            console.log(transformedRunResults);
+            var resultsToGraph = {}
 
+            resultsToGraph['labels'] = labels;
+
+            resultsToGraph['data'] = transformedRunResults;
+
+            io.to(socket.id).emit('sentRunResults', resultsToGraph);
         })
     })
 })

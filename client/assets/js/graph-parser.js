@@ -117,3 +117,21 @@ function getRunResults(){
 
     socket.emit('getRunResults', stateVarsSelected);
 }
+
+socket.on('sentRunResults', function(msg){
+
+    g = new Dygraph(
+        // containing div
+        document.getElementById("output-graph"),
+
+        msg['data']
+        ,
+        {
+            labels: msg['labels'],
+            xlabel: 'Iteration Number',
+            ylabel: 'State Value',
+            title: 'Algorithm Performance',
+            animatedZooms : true
+        }
+    );
+})

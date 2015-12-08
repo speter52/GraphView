@@ -36,6 +36,7 @@ socket.on('runComplete', function(msg){
         // containing div
         document.getElementById("output-graph"),
 
+        msg
         ,
         {
             labels: ['Iteration Number', 'State Value'],
