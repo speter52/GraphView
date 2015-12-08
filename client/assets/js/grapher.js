@@ -31,11 +31,12 @@ socket.on('runComplete', function(msg){
     document.getElementById('output-graph').style.display = 'block';
     console.log("algorithm complete");
 
+
     g = new Dygraph(
         // containing div
         document.getElementById("output-graph"),
 
-        msg,
+        ,
         {
             labels: ['Iteration Number', 'State Value'],
             xlabel: 'Iteration Number',

@@ -20,17 +20,35 @@
             </div>
             <div class="col-lg-4">
                 <div class="form-group">
-                    <label for="state-variables">State Variables</label>
-                    <select id="state-variables" multiple size="20" class="form-control">
+                    <label for="nodes">Nodes</label>
+                    <select id="nodes" multiple size="20" class="form-control">
                     </select>
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="form-group">
-                    <label for="nodes">Nodes</label>
-                    <select id="nodes" multiple size="20" class="form-control">
+                    <label for="state-variables">State Variables</label>
+                    <select id="state-variables" multiple size="20" class="form-control">
                     </select>
                 </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <form class="form-inline">
+                    <button id="createGraphButton" type="button" class="btn btn-lg btn-primary">Create Graph</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="panel panel-primary" style="margin-top: 15px;">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-area-chart fa-fw"></i> Algorithm Performance</h3>
+            </div>
+            <!-- TODO: Figure out how to keep output box constant height while running algorithm -->
+            <div class="panel-body">
+                <div id="output-graph" style="display:block;height:100%;width:100%;min-height: 400px;"></div>
             </div>
         </div>
 

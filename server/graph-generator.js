@@ -23,25 +23,104 @@ io.on('connection', function(socket){
 
 //TODO: Use SQL Builder library
 io.on('connection', function(socket){
-    socket.on('getStateVariables', function(msg){
+    socket.on('getNodes', function(msg){
         var runsSelected = msg;
 
-        // TODO: Return empty dictionary when nothing is selected
-        var getStateVarStatement = "SELECT DISTINCT RunName,StateVariable FROM RunResults WHERE ;";
+        var getNodesStatement = "SELECT DISTINCT RunName,Node FROM RunResults WHERE ;";
 
         for(var i = 0; i < runsSelected.length; i++)
         {
-            getStateVarStatement = getStateVarStatement.slice(0, -1);
+            getNodesStatement = getNodesStatement.slice(0, -1);
 
-            if(i > 0) getStateVarStatement += " OR ";
+            if(i > 0) getNodesStatement += " OR ";
 
-            getStateVarStatement += 'RunName="' + runsSelected[i] +'";';
+            getNodesStatement += 'RunName="' + runsSelected[i] +'";';
         }
 
-        connection.query(getStateVarStatement, function(err, stateVariableResults){
+        connection.query(getNodesStatement, function(err, nodesResults){
             if(err) throw err;
 
-            io.to(socket.id).emit('sentStateVariables', stateVariableResults);
+            io.to(socket.id).emit('sentNodes', nodesResults);
+        })
+    })
+})
+
+io.on('connection', function(socket){
+    socket.on('getStateVariables', function(msg){
+        var getStateVarsStatement = "SELECT DISTINCT RunName,Node,StateVariable FROM RunResults WHERE ;";
+
+        for(var i = 0; i < msg.length; i++)
+        {
+            var nodeEntry = JSON.parse(msg[i]);
+
+            getStateVarsStatement = getStateVarsStatement.slice(0, -1);
+
+            if(i > 0) getStateVarsStatement += " OR ";
+
+            var currentWhere = '(RunName = "' + nodeEntry.RunName + '" AND Node=' + nodeEntry.Node + ')';
+
+            getStateVarsStatement += currentWhere +';';
+        }
+
+        connection.query(getStateVarsStatement, function(err, stateVarsResults){
+            if(err) throw err;
+
+            io.to(socket.id).emit('sentStateVariables', stateVarsResults);
+        })
+    })
+})
+
+io.on('connection', function(socket){
+    socket.on('getRunResults', function(msg){
+        var getRunResultsStatement = "SELECT * FROM RunResults WHERE ;";
+
+        for(var i = 0; i < msg.length; i++)
+        {
+           var stateVarEntry = JSON.parse(msg[i]);
+
+           getRunResultsStatement = getRunResultsStatement.slice(0, -1);
+
+           if(i > 0) getRunResultsStatement += " OR ";
+
+           var currentWhere = '(RunName = "' + stateVarEntry.RunName + '" AND Node = ' + stateVarEntry.Node +
+                                ' AND StateVariable = "' +stateVarEntry.StateVariable +'")';
+
+           getRunResultsStatement += currentWhere +';';
+        }
+
+        connection.query(getRunResultsStatement, function(err, runResults)
+        {
+            if(err) throw err;
+
+            var transformedRunResults = [];
+
+            var currentColumn = 1;
+            var currentRow = 0;
+            // TODO: Make sure client doesn't send non-null results; better way to initialize for loop?
+            var currentRunName = runResults[0].RunName;
+
+            for(var i = 0; i < runResults.length; i++)
+            {
+                var currentResult = runResults[i];
+
+                if(currentRunName != currentResult.RunName)
+                {
+                    currentRow = 0;
+
+                    currentColumn++;
+
+                    currentRunName = currentResult.RunName;
+                }
+
+                if(currentColumn == 1) transformedRunResults.push([currentRow]);
+
+                transformedRunResults[currentRow].push(currentResult.Value);
+
+                currentRow++;
+            }
+
+            console.log(transformedRunResults);
+
         })
     })
 })
