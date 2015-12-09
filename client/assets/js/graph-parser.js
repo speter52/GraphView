@@ -134,4 +134,6 @@ socket.on('sentRunResults', function(msg){
             animatedZooms : true
         }
     );
+
+    window.scrollTo(0, document.body.scrollHeight);
 })

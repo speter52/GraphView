@@ -64,11 +64,20 @@ io.on('connection', function(socket){
                             buildAndRun = spawn('sh',['build_and_run.sh', inputFilePath, msg['NumberOfIterations']],
                                                 {cwd:pathToCore});
 
+                        var stdout = '';
                         // TODO: Use later to print console output to gui?
                         buildAndRun.stdout.on('data', function (data) {
                             console.log('stdout: ' + data);
+
+                            stdout += data;
                         });
 
+                        buildAndRun.stdout.on('end', function(){
+                            console.log(stdout)
+                            io.to(socket.id).emit('consoleOutput', stdout);
+                        })
+
+                        /*
                         // Once the algorithm finishes, pull the results from the database and push it to the client
                         buildAndRun.stdout.on('end', function(){
                             console.log("Algorithm finished.");
@@ -94,6 +103,7 @@ io.on('connection', function(socket){
                                 console.log("Sent run results to client.")
                             })
                         })
+                        */
                     })
                 })
             })
