@@ -23,6 +23,8 @@ function sendCode(){
 
     algorithmParameters['CustomNodeCode'] = editor.getValue();
 
+    algorithmParameters['RunName'] = document.getElementById('run-name').value;
+
     socket.emit('runAlgorithm', algorithmParameters)
 }
 
@@ -48,7 +50,7 @@ socket.on('runComplete', function(msg){
             xlabel: 'Iteration Number',
             ylabel: 'State Value',
             title: 'Algorithm Consensus',
-            animatedZooms : true
+            animatedZooms : true,
         }
     );
 });

@@ -1,4 +1,20 @@
+function getCurrentTime(){
+    var currentTime = new Date();
+
+    var algorithmRunName = 'd' + (currentTime.getMonth()+1) +
+        currentTime.getDate() +
+        currentTime.getFullYear() + 't' +
+        currentTime.getHours() +
+        currentTime.getMinutes() +
+        currentTime.getSeconds();
+
+    return algorithmRunName
+}
+
+
 socket.emit('getNetworkLayouts','request');
+
+document.getElementById('run-name').value = getCurrentTime();
 
 socket.on('sentNetworkLayouts', function(msg){
     var layoutDropdown = document.getElementById('layout-dropdown');

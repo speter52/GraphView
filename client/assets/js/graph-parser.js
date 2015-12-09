@@ -131,7 +131,8 @@ socket.on('sentRunResults', function(msg){
             xlabel: 'Iteration Number',
             ylabel: 'State Value',
             title: 'Algorithm Performance',
-            animatedZooms : true
+            animatedZooms : true,
+            labelsSeparateLines: true,
         }
     );
 

@@ -7,7 +7,12 @@ io.on('connection', function(socket){
         var getAlgRunsStatement = "SELECT DISTINCT RunName FROM RunResults;";
 
         connection.query(getAlgRunsStatement, function(err, rows){
-            if(err) throw err;
+            if(err)
+            {
+                console.log("RunResults table doesn't exist.");
+
+                return;
+            }
 
             var transformedAlgorithmRuns = [];
 
@@ -70,23 +75,29 @@ io.on('connection', function(socket){
     })
 })
 
+function createLabel(stateVariable, nodeID, runName)
+{
+    return stateVariable + ' - ' + nodeID + ' - ' + runName;
+}
+
 io.on('connection', function(socket){
     socket.on('getRunResults', function(msg){
-        var getRunResultsStatement = "SELECT * FROM RunResults WHERE ;";
+        var getRunResultsStatement = "SELECT * FROM RunResults WHERE ";
 
         for(var i = 0; i < msg.length; i++)
         {
            var stateVarEntry = JSON.parse(msg[i]);
 
-           getRunResultsStatement = getRunResultsStatement.slice(0, -1);
 
            if(i > 0) getRunResultsStatement += " OR ";
 
            var currentWhere = '(RunName = "' + stateVarEntry.RunName + '" AND Node = ' + stateVarEntry.Node +
                                 ' AND StateVariable = "' +stateVarEntry.StateVariable +'")';
 
-           getRunResultsStatement += currentWhere +';';
+           getRunResultsStatement += currentWhere;
         }
+
+        getRunResultsStatement += "ORDER BY RunName, Node, StateVariable, IterationNumber;";
 
         connection.query(getRunResultsStatement, function(err, runResults)
         {
@@ -97,27 +108,29 @@ io.on('connection', function(socket){
             var currentColumn = 1;
             var currentRow = 0;
             // TODO: Make sure client doesn't send non-null results; better way to initialize for loop?
-            var currentRunName = runResults[0].RunName;
+            var currentEntryName = createLabel(runResults[0].StateVariable, runResults[0].Node, runResults[0].RunName);
 
-            var labels = ["Iteration Number", currentRunName];
+            var labels = ["Iteration Number", currentEntryName];
 
             for(var i = 0; i < runResults.length; i++)
             {
                 var currentResult = runResults[i];
 
-                if(currentRunName != currentResult.RunName)
+                var latestEntryName = createLabel(currentResult.StateVariable, currentResult.Node, currentResult.RunName);
+
+                if(currentEntryName != latestEntryName)
                 {
                     currentRow = 0;
 
                     currentColumn++;
 
-                    currentRunName = currentResult.RunName;
+                    currentEntryName = latestEntryName;
 
-                    labels.push(currentRunName);
+                    labels.push(currentEntryName);
                 }
 
                 // TODO: Figure out logic for data sets of different sizes
-                if(currentColumn == 1 || currentRow ) transformedRunResults.push([currentRow]);
+                if(currentColumn == 1 ) transformedRunResults.push([currentRow]);
 
                 transformedRunResults[currentRow].push(currentResult.Value);
 

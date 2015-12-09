@@ -36,7 +36,7 @@ io.on('connection', function(socket){
 
         yaml.load(pathToConfigFile, function(result){
 
-            var algorithmRunName = time.getCurrentTime();
+            var algorithmRunName = msg['RunName'];
 
             result.database_table = algorithmRunName;
 
