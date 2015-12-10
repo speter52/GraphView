@@ -30,6 +30,7 @@
     <script src="../assets/bower_components/codemirror/lib/codemirror.js"></script>
     <script src="../assets/bower_components/codemirror/mode/clike/clike.js"></script>
     <script src="../assets/bower_components/codemirror/addon/edit/matchbrackets.js"></script>
+    <script src="../assets/bower_components/codemirror/addon/display/fullscreen.js"></script>
     <div class="panel panel-yellow">
       <div class="panel-heading">
         <h3 class="panel-title"><i class="fa fa-terminal fa-fw"></i> Input Algorithm</h3>
@@ -65,7 +66,18 @@ protected void processResponse(Message incomingMessage)
         lineNumbers: true,
         matchBrackets: true,
         mode: "text/x-java",
+          <!--
+          extraKeys: {
+              "F11": function(cm) {
+                  cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+              },
+              "Esc": function(cm) {
+                  if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+              }
+          }
+            -->
       });
+
     </script>
 
     <div class="row">

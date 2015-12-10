@@ -59,6 +59,7 @@ socket.on('consoleOutput', function(msg){
     var consoleOutputBox = document.getElementById('console-output');
 
     consoleOutputBox.scrollTop = consoleOutputBox.scrollHeight;
+    consoleOutputBox.value = '';
     consoleOutputBox.value += msg;
 
 
