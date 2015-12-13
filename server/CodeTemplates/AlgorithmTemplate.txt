@@ -1,0 +1,2 @@
+package com.Network;import com.Helpers.OutputWriter.WriterThread;import com.MessageHandler.Message;import com.MessageHandler.MessagePasser;import java.util.ArrayList;import java.util.List;import java.util.Map;/*** Class where user defines the behavior of each node.*/public class CustomNode extends GenericNode{public CustomNode(int nodeID, MessagePasser messagePasser, WriterThread writer, ArrayList neighbors,Map data, int iterationMax){super(nodeID, messagePasser, writer, neighbors, data, iterationMax);    }
+

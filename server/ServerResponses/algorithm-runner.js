@@ -1,4 +1,4 @@
-var app = require('./app.js');
+var app = require('./../app.js');
 var io = app.io;
 
 /**
@@ -29,9 +29,9 @@ io.on('connection', function(socket){
     socket.on('runAlgorithm', function(msg){
         var fs = require("fs");
         var yaml = require('yamljs');
-        var time = require('./current-time.js');
+        var time = require('./../current-time.js');
 
-        var pathToCore = require('./config/core-info.js');
+        var pathToCore = require('./../config/core-info.js');
         var pathToConfigFile = pathToCore + 'config.yml';
 
         yaml.load(pathToConfigFile, function(result){
@@ -46,7 +46,7 @@ io.on('connection', function(socket){
                 if(err) console.log("Couldn't write config file.")
 
                 // Read in setup code for node class
-                fs.readFile(__dirname + '/AlgorithmSkeleton.txt', "utf-8", function(err, data){
+                fs.readFile(__dirname + '/../CodeTemplates/AlgorithmTemplate.txt', "utf-8", function(err, data){
                     if(err) throw err;
 
                     // Append the user inputted code to the node class
@@ -57,7 +57,7 @@ io.on('connection', function(socket){
                     fs.writeFile(pathToNodeClass, customNodeCode, function(err){
                         if(err) throw err;
 
-                        var inputFilePath = __dirname + '/' + msg['InputLayout'] + '.yml';
+                        var inputFilePath = __dirname + '/../NetworkLayouts/' + msg['InputLayout'] + '.yml';
 
                         // Build and run the java project
                         var spawn = require('child_process').spawn,
@@ -73,7 +73,6 @@ io.on('connection', function(socket){
                         });
 
                         buildAndRun.stdout.on('end', function(){
-                            console.log(stdout)
                             io.to(socket.id).emit('consoleOutput', stdout);
                         })
 
@@ -114,7 +113,7 @@ io.on('connection', function(socket){
 
 io.on('connection', function(socket){
     socket.on('getNetworkLayouts', function(msg){
-        var connection = require('./config/database-info.js');
+        var connection = require('./../config/database-info.js');
 
         var selectStatement = "SELECT FileName FROM InputFiles;"
 

@@ -1,4 +1,35 @@
+socket.emit('getNetworkLayouts','request');
 document.getElementById('runButton').onclick = sendCode;
+document.getElementById('run-name').value = getCurrentTime();
+
+function getCurrentTime(){
+    var currentTime = new Date();
+
+    var algorithmRunName = 'd' + (currentTime.getMonth()+1) +
+        currentTime.getDate() +
+        currentTime.getFullYear() + 't' +
+        currentTime.getHours() +
+        currentTime.getMinutes() +
+        currentTime.getSeconds();
+
+    return algorithmRunName
+}
+
+socket.on('sentNetworkLayouts', function(msg){
+    var layoutDropdown = document.getElementById('layout-dropdown');
+
+    // TODO: Temporary, move this logic into controller for page
+    layoutDropdown.innerHTML = '';
+
+    for(var i = 0; i < msg.length; i++)
+    {
+        var option = document.createElement('option');
+
+        option.text = option.value = msg[i];
+
+        layoutDropdown.appendChild(option);
+    }
+})
 
 /**
  * Grab value of input algorithm from code box and send to server. Then load the ball animation.
@@ -27,33 +58,6 @@ function sendCode(){
 
     socket.emit('runAlgorithm', algorithmParameters)
 }
-
-/**
- * Use the algorithm results to generate a DyGraph. Remove the ball animation.
- */
-socket.on('runComplete', function(msg){
-    /*
-    document.getElementById('ball').style.display = 'none';
-    document.getElementById('output-graph').style.display = 'block';
-    */
-    console.log("algorithm complete");
-
-
-    g = new Dygraph(
-        // containing div
-        document.getElementById("output-graph"),
-
-        msg
-        ,
-        {
-            labels: ['Iteration Number', 'State Value'],
-            xlabel: 'Iteration Number',
-            ylabel: 'State Value',
-            title: 'Algorithm Consensus',
-            animatedZooms : true,
-        }
-    );
-});
 
 socket.on('consoleOutput', function(msg){
     var consoleOutputBox = document.getElementById('console-output');

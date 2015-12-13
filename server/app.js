@@ -17,9 +17,9 @@ var server = http.createServer(app);
 
 var io = require('socket.io').listen(server);
 module.exports.io = io;
-require('./run-system');
-require('./input-generator');
-require('./graph-generator');
+require('./ServerResponses/algorithm-runner');
+require('./ServerResponses/input-generator');
+require('./ServerResponses/graph-creator');
 
 server.listen(port);
 //server.on('error', onError);

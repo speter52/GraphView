@@ -1,6 +1,6 @@
-var app = require('./app.js');
+var app = require('./../app.js');
 var io = app.io;
-var connection = require('./config/database-info.js');
+var connection = require('./../config/database-info.js');
 
 io.on('connection', function(socket){
     socket.on('getAlgorithmRuns', function(msg){
@@ -64,7 +64,7 @@ io.on('connection', function(socket){
 
             var currentWhere = '(RunName = "' + nodeEntry.RunName + '" AND Node=' + nodeEntry.Node + ')';
 
-            getStateVarsStatement += currentWhere +';';
+            getStateVarsStatement += currentWhere + ";";
         }
 
         connection.query(getStateVarsStatement, function(err, stateVarsResults){

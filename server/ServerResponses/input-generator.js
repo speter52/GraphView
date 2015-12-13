@@ -1,12 +1,12 @@
-var app = require('./app.js');
+var app = require('./../app.js');
 var io = app.io;
 
 io.on('connection', function(socket){
     socket.on('createInputFile', function(msg){
         var fs = require("fs");
-        var pathToCore = require('./config/core-info.js');
+        var pathToCore = require('./../config/core-info.js');
 
-        fs.readFile(__dirname + '/InputGeneratorSkeleton.txt', "utf-8", function(err, data) {
+        fs.readFile(__dirname + '/../CodeTemplates/InputGeneratorTemplate.txt', "utf-8", function(err, data) {
             if (err) throw err;
 
             var customInputCode = data.replace(/\r?\n|\r/g,'') + msg['stateValueFunction'] + '}';
@@ -42,7 +42,7 @@ io.on('connection', function(socket){
                     fs.readFile(pathToInputFile, "utf-8", function(err, data) {
                         if (err) throw err;
 
-                        var time = require('./current-time.js');
+                        var time = require('./../current-time.js');
                         var inputResults = {};
 
                         inputResults['inputName'] = time.getCurrentTime();
@@ -68,7 +68,7 @@ io.on('connection', function(socket){
 
         var fs = require("fs");
         // TODO: Specify absolute path to save in database
-        var pathToOutputFolder = "./server/";
+        var pathToOutputFolder = "./server/NetworkLayouts/";
 
         var fileName = msg['inputName'];
 
@@ -81,7 +81,7 @@ io.on('connection', function(socket){
 
             console.log("Wrote file to disk.");
 
-            var connection = require('./config/database-info.js');
+            var connection = require('./../config/database-info.js');
 
             var createTableStatement = "CREATE TABLE IF NOT EXISTS InputFiles(FileName varchar(255));";
 
