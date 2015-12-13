@@ -1,6 +1,33 @@
 var app = require('./../app.js');
 var io = app.io;
 
+/**
+ * Use parameters selected by client to build the argument array to run the Input Generator.
+ * @param msg
+ * @returns {Array}
+ */
+function buildArgsForInputGenerator(msg){
+    var args = [];
+
+    args.push('run_input_generator.sh');
+    args.push(msg['numOfNodes']);
+    args.push(msg['numOfPartitions']);
+    args.push(msg['numOfNeighbors']);
+
+    var stateVariables = msg['stateVariables'];
+
+    for(var i=0; i<stateVariables.length; i++)
+    {
+        args.push(stateVariables[i])
+    }
+
+    return args;
+}
+
+/**
+ * Use the selected parameters to run the InputGenerator to create an input layout file for the network. Then
+ * send the generated YAML to the client.
+ */
 io.on('connection', function(socket){
     socket.on('createInputFile', function(msg){
         var fs = require("fs");
@@ -18,22 +45,10 @@ io.on('connection', function(socket){
 
                 console.log("Building generator...");
 
-                var args = [];
-
-                args.push('run_input_generator.sh');
-                args.push(msg['numOfNodes']);
-                args.push(msg['numOfPartitions']);
-                args.push(msg['numOfNeighbors']);
-
-                var stateVariables = msg['stateVariables'];
-
-                for(i=0; i<stateVariables.length; i++)
-                {
-                    args.push(stateVariables[i])
-                }
+                var inputArgs = buildArgsForInputGenerator(msg);
 
                 var spawn = require('child_process').spawn,
-                    buildAndRun = spawn('sh', args, {cwd:pathToCore});
+                    buildAndRun = spawn('sh', inputArgs, {cwd:pathToCore});
 
                 buildAndRun.stdout.on('end', function (data) {
                     var pathToInputFile = pathToCore + 'Tools/InputGenerator/GraphInput.yml'

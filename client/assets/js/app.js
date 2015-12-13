@@ -3,7 +3,7 @@ var graphviewApp = angular.module('graphviewApp', [
   'ngAnimate',
 ]);
 
-// TODO: Can't get Angular to pick up the template URL's, only the layout index.html is displayed
+// Angular Routes
 graphviewApp.config(['$routeProvider','$locationProvider',
   function($routeProvider, $locationProvider) {
     $routeProvider.
@@ -21,6 +21,7 @@ graphviewApp.config(['$routeProvider','$locationProvider',
     $locationProvider.html5Mode(true);
   }]);
 
+// Angular Controllers TODO: Still need to move logic from js files to controllers
 graphviewApp.controller('OutputGraphCtrl', function($scope){
   $scope.message = "test";
 });

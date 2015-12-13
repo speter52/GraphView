@@ -2,25 +2,6 @@ var app = require('./../app.js');
 var io = app.io;
 
 /**
- * Transform the SQL results array so Dygraphs receives a list of pairs where each pair represents a point.
- * @param sqlResults
- * @returns {Array}
- */
-function transformRunResultsForClient(sqlResults)
-{
-    var transformedRows = [];
-    // TODO: Perhaps push off transforming to client? Not sure if I'd be revealing too much of the db schema
-    for(var i = 0; i < sqlResults.length; i++)
-    {
-        var iterationNumber = sqlResults[i].IterationNumber;
-        var stateValue = sqlResults[i].Value;
-        transformedRows.push([iterationNumber, stateValue]);
-    }
-
-    return transformedRows;
-}
-
-/**
  * Upon receiving the user-inputed algorithm, the server compiles the code against the GraphSim project. If it
  * compiles, the project is run until all the iterations are complete, after which the results are pushed to
  * the MySQL database. Then the server pull the results from the database and pushed it to the client.
@@ -75,34 +56,6 @@ io.on('connection', function(socket){
                         buildAndRun.stdout.on('end', function(){
                             io.to(socket.id).emit('consoleOutput', stdout);
                         })
-
-                        /*
-                        // Once the algorithm finishes, pull the results from the database and push it to the client
-                        buildAndRun.stdout.on('end', function(){
-                            console.log("Algorithm finished.");
-
-                            var connection = require('./config/database-info.js');
-
-                            // Configure later by user
-                            var nodeid = 0;
-                            var statevariable = "x";
-
-                            // TODO: Use SQL builder library for SQL commands
-                            var selectStatement = 'SELECT IterationNumber, Value FROM RunResults' +
-                                ' WHERE (RunName="' + algorithmRunName + '"  AND Node=' +nodeid+' AND StateVariable="'+statevariable+'") ' +
-                                'ORDER BY IterationNumber';
-
-                            connection.query(selectStatement, function(err, rows){
-                                if(err) throw err;
-
-                                var transformedRows = transformRunResultsForClient(rows);
-
-                                io.to(socket.id).emit('runComplete', transformedRows);
-
-                                console.log("Sent run results to client.")
-                            })
-                        })
-                        */
                     })
                 })
             })
@@ -110,7 +63,10 @@ io.on('connection', function(socket){
     });
 });
 
-
+// TODO: Move to controller?
+/**
+ * Send the list of network layout files to the client.
+ */
 io.on('connection', function(socket){
     socket.on('getNetworkLayouts', function(msg){
         var connection = require('./../config/database-info.js');

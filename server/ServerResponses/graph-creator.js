@@ -2,6 +2,9 @@ var app = require('./../app.js');
 var io = app.io;
 var connection = require('./../config/database-info.js');
 
+/**
+ * Return list of algorithm runs to client.
+ */
 io.on('connection', function(socket){
     socket.on('getAlgorithmRuns', function(msg){
         var getAlgRunsStatement = "SELECT DISTINCT RunName FROM RunResults;";
@@ -27,6 +30,9 @@ io.on('connection', function(socket){
 })
 
 //TODO: Use SQL Builder library
+/**
+ * Return list of nodes for the selected algorithm runs to the client.
+ */
 io.on('connection', function(socket){
     socket.on('getNodes', function(msg){
         var runsSelected = msg;
@@ -50,6 +56,17 @@ io.on('connection', function(socket){
     })
 })
 
+/**
+ * Return a formatted string given State Variable, Node ID, and the Run Name.
+ */
+function createLabel(stateVariable, nodeID, runName)
+{
+    return stateVariable + ' - ' + nodeID + ' - ' + runName;
+}
+
+/**
+ * Return list of state variables for all the selected nodes to the client.
+ */
 io.on('connection', function(socket){
     socket.on('getStateVariables', function(msg){
         var getStateVarsStatement = "SELECT DISTINCT RunName,Node,StateVariable FROM RunResults WHERE ;";
@@ -75,11 +92,54 @@ io.on('connection', function(socket){
     })
 })
 
-function createLabel(stateVariable, nodeID, runName)
-{
-    return stateVariable + ' - ' + nodeID + ' - ' + runName;
+/**
+ * Transform the SQL Run Results to 2-dimensional array that can be processed by DyGraphs. The first column represents
+ * the values of the x-axis (Iteration Number), and the following columns represent the data from different nodes.
+ * While transforming the results, the list of labels for the data is also created.
+ * @returns {{data: Array, labels: *[]}}
+ */
+function getRowsAndLabelsForGraph(sqlRunResults){
+    var transformedRunResults = [];
+
+    var currentColumn = 1;
+    var currentRow = 0;
+    // TODO: Make sure client doesn't send non-null results; better way to initialize for loop?
+    var currentEntryName = createLabel(sqlRunResults[0].StateVariable, sqlRunResults[0].Node, sqlRunResults[0].RunName);
+
+    var labels = ["Iteration Number", currentEntryName];
+
+    for(var i = 0; i < sqlRunResults.length; i++)
+    {
+        var currentResult = sqlRunResults[i];
+
+        var latestEntryName = createLabel(currentResult.StateVariable, currentResult.Node, currentResult.RunName);
+
+        if(currentEntryName != latestEntryName)
+        {
+            currentRow = 0;
+
+            currentColumn++;
+
+            currentEntryName = latestEntryName;
+
+            labels.push(currentEntryName);
+        }
+
+        // TODO: Figure out logic for data sets of different sizes
+        if(currentColumn == 1 ) transformedRunResults.push([currentRow]);
+
+        transformedRunResults[currentRow].push(currentResult.Value);
+
+        currentRow++;
+    }
+
+    return {'labels': labels, 'data': transformedRunResults};
 }
 
+
+/**
+ * Return the data for the selected runs to the client for graphing.
+ */
 io.on('connection', function(socket){
     socket.on('getRunResults', function(msg){
         var getRunResultsStatement = "SELECT * FROM RunResults WHERE ";
@@ -103,45 +163,13 @@ io.on('connection', function(socket){
         {
             if(err) throw err;
 
-            var transformedRunResults = [];
-
-            var currentColumn = 1;
-            var currentRow = 0;
-            // TODO: Make sure client doesn't send non-null results; better way to initialize for loop?
-            var currentEntryName = createLabel(runResults[0].StateVariable, runResults[0].Node, runResults[0].RunName);
-
-            var labels = ["Iteration Number", currentEntryName];
-
-            for(var i = 0; i < runResults.length; i++)
-            {
-                var currentResult = runResults[i];
-
-                var latestEntryName = createLabel(currentResult.StateVariable, currentResult.Node, currentResult.RunName);
-
-                if(currentEntryName != latestEntryName)
-                {
-                    currentRow = 0;
-
-                    currentColumn++;
-
-                    currentEntryName = latestEntryName;
-
-                    labels.push(currentEntryName);
-                }
-
-                // TODO: Figure out logic for data sets of different sizes
-                if(currentColumn == 1 ) transformedRunResults.push([currentRow]);
-
-                transformedRunResults[currentRow].push(currentResult.Value);
-
-                currentRow++;
-            }
+            var transformedRunResults = getRowsAndLabelsForGraph(runResults);
 
             var resultsToGraph = {}
 
-            resultsToGraph['labels'] = labels;
+            resultsToGraph['labels'] = transformedRunResults.labels;
 
-            resultsToGraph['data'] = transformedRunResults;
+            resultsToGraph['data'] = transformedRunResults.data;
 
             io.to(socket.id).emit('sentRunResults', resultsToGraph);
         })

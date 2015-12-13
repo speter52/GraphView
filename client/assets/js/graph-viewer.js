@@ -3,6 +3,9 @@ document.getElementById('algorithm-runs').onchange = getNodes;
 document.getElementById('nodes').onchange = getStateVariables;
 document.getElementById('createGraphButton').onclick = getRunResults;
 
+/**
+ * Request the list of algorithm runs from the server for the user to select from.
+ */
 socket.on('sentAlgorithmRuns', function(msg){
     var algorithmRunBox = document.getElementById('algorithm-runs');
 
@@ -19,6 +22,11 @@ socket.on('sentAlgorithmRuns', function(msg){
     }
 })
 
+/**
+ * Given a multi-select box, get the list of all the options that were selected.
+ * @param selectElement
+ * @returns {Array}
+ */
 function getSelectedOptions(selectElement){
     var selected = [];
 
@@ -32,6 +40,9 @@ function getSelectedOptions(selectElement){
     return selected;
 }
 
+/**
+ * Request the list of nodes from the server corresponding to the selected algorithm runs.
+ */
 function getNodes(){
     var algorithmRunBox = document.getElementById('algorithm-runs');
 
@@ -50,6 +61,9 @@ function getNodes(){
     }
 }
 
+/**
+ * Display the list of nodes in the multi-select box after receiving them from the server.
+ */
 socket.on('sentNodes', function(msg){
     var nodesBox = document.getElementById('nodes');
 
@@ -69,6 +83,9 @@ socket.on('sentNodes', function(msg){
     }
 })
 
+/**
+ * Request the list of State Variables from the server corresponding to the selected nodes.
+ */
 function getStateVariables(){
     var nodesBox = document.getElementById('nodes');
 
@@ -87,6 +104,9 @@ function getStateVariables(){
     }
 }
 
+/**
+ * Display the list of State Variables in a multi-select box after receiveing them from the server.
+ */
 socket.on('sentStateVariables', function(msg){
     var stateVariablesBox = document.getElementById('state-variables');
 
@@ -108,6 +128,9 @@ socket.on('sentStateVariables', function(msg){
     }
 })
 
+/**
+ * Request the results of the selected runs from the server.
+ */
 function getRunResults(){
     this.blur();
 
@@ -118,6 +141,9 @@ function getRunResults(){
     socket.emit('getRunResults', stateVarsSelected);
 }
 
+/**
+ * Display the results of the selected runs in DyGraphs after receiving them from the server.
+ */
 socket.on('sentRunResults', function(msg){
 
     g = new Dygraph(
@@ -128,6 +154,7 @@ socket.on('sentRunResults', function(msg){
         ,
         {
             labels: msg['labels'],
+            // labelsDiv: 'legend',
             xlabel: 'Iteration Number',
             ylabel: 'State Value',
             title: 'Algorithm Performance',

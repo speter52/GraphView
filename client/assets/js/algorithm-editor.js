@@ -2,6 +2,10 @@ socket.emit('getNetworkLayouts','request');
 document.getElementById('runButton').onclick = sendCode;
 document.getElementById('run-name').value = getCurrentTime();
 
+/**
+ * Get a formatted string for the current date and time. Used to generate a default name for this run.
+ * @returns {string}
+ */
 function getCurrentTime(){
     var currentTime = new Date();
 
@@ -15,10 +19,13 @@ function getCurrentTime(){
     return algorithmRunName
 }
 
+// TODO: Move logic to controller
+/**
+ * Request the list of network layouts generated from the Initialize System tab.
+ */
 socket.on('sentNetworkLayouts', function(msg){
     var layoutDropdown = document.getElementById('layout-dropdown');
 
-    // TODO: Temporary, move this logic into controller for page
     layoutDropdown.innerHTML = '';
 
     for(var i = 0; i < msg.length; i++)
@@ -32,7 +39,7 @@ socket.on('sentNetworkLayouts', function(msg){
 })
 
 /**
- * Grab value of input algorithm from code box and send to server. Then load the ball animation.
+ * Grab value of input algorithm from code box and send to server.
  */
 function sendCode(){
     // TODO: Figure out how to properly blur button?
@@ -59,6 +66,9 @@ function sendCode(){
     socket.emit('runAlgorithm', algorithmParameters)
 }
 
+/**
+ * Display the console output of the algorithm after it has finished running on the server.
+ */
 socket.on('consoleOutput', function(msg){
     var consoleOutputBox = document.getElementById('console-output');
 
