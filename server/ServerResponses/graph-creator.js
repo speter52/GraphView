@@ -48,6 +48,9 @@ io.on('connection', function(socket){
             getNodesStatement += 'RunName="' + runsSelected[i] +'";';
         }
 
+        getNodesStatement = getNodesStatement.slice(0, -1);
+        getNodesStatement += " ORDER BY RunName, Node;";
+
         connection.query(getNodesStatement, function(err, nodesResults){
             if(err) throw err;
 
@@ -83,6 +86,10 @@ io.on('connection', function(socket){
 
             getStateVarsStatement += currentWhere + ";";
         }
+
+        // TODO: Temporary code for demo, need to use SQL Builder library
+        getStateVarsStatement = getStateVarsStatement.slice(0, -1);
+        getStateVarsStatement += " ORDER BY RunName, StateVariable, Node;";
 
         connection.query(getStateVarsStatement, function(err, stateVarsResults){
             if(err) throw err;
@@ -165,7 +172,7 @@ io.on('connection', function(socket){
 
             var transformedRunResults = getRowsAndLabelsForGraph(runResults);
 
-            var resultsToGraph = {}
+            var resultsToGraph = {};
 
             resultsToGraph['labels'] = transformedRunResults.labels;
 

@@ -133,6 +133,8 @@ socket.on('sentStateVariables', function(msg){
  */
 function getRunResults(){
     this.blur();
+    //document.getElementById('flipper').style.display = "block";
+    //document.getElementById('output-graph').style.display = "none";
 
     var stateVarsBox = document.getElementById('state-variables');
 
@@ -145,13 +147,9 @@ function getRunResults(){
  * Display the results of the selected runs in DyGraphs after receiving them from the server.
  */
 socket.on('sentRunResults', function(msg){
-
     g = new Dygraph(
-        // containing div
         document.getElementById("output-graph"),
-
-        msg['data']
-        ,
+        msg['data'],
         {
             labels: msg['labels'],
             // labelsDiv: 'legend',
@@ -163,5 +161,7 @@ socket.on('sentRunResults', function(msg){
         }
     );
 
+    //document.getElementById('flipper').style.display = "none";
+    //document.getElementById('output-graph').style.display = "block";
     window.scrollTo(0, document.body.scrollHeight);
 })
