@@ -83,7 +83,7 @@ io.on('connection', function(socket){
 
         var fs = require("fs");
         // TODO: Specify absolute path to save in database
-        var pathToOutputFolder = "./server/NetworkLayouts/";
+        var pathToOutputFolder = __dirname + "/../NetworkLayouts/";
 
         var fileName = msg['inputName'];
 

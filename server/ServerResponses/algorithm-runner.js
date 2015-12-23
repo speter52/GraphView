@@ -46,11 +46,14 @@ io.on('connection', function(socket){
                                                 {cwd:pathToCore});
 
                         var stdout = '';
-                        // TODO: Use later to print console output to gui?
                         buildAndRun.stdout.on('data', function (data) {
                             console.log('stdout: ' + data);
 
                             stdout += data;
+                        });
+
+                        buildAndRun.stderr.on('data', function (data) {
+                            console.log('stderr: '+data);
                         });
 
                         buildAndRun.stdout.on('end', function(){
