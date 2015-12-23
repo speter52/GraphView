@@ -74,7 +74,12 @@ io.on('connection', function(socket){
         var selectStatement = "SELECT FileName FROM InputFiles;"
 
         connection.query(selectStatement, function(err, rows){
-            if(err) throw err;
+            if(err)
+            {
+                console.log("No input files in database.");
+
+                return;
+            }
 
             var transformedInputList = [];
 
