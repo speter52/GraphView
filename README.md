@@ -7,7 +7,7 @@ When studying these algorithms, a significant amount of time is spent developing
 
 The user provides a few lines of code to be compiled into the Java application that define the behavior of each node. They then create an input file to indicate how these nodes are connected to each other and the nodes' initial values. With the input algorithm and the network representation, the system can run the simulation over a given number of iterations and save those results.
 
-To complement the Java application, an Express.js web application was built to easily run simulations under different conditions and to visualize the resulting data.
+To complement the Java application, an Express.js web application was built to easily run simulations under different conditions and to visualize the resulting data. This is the repository for the web app, the Java application can be found here - https://www.github.com/speter52/GraphSim
 
 ## Table of Contents
 - [Application Architecture](#application-architecture)
@@ -309,10 +309,10 @@ npm start
 and then navigating to ```localhost:3000```.
 
 ## Related Work
-- <a name="approx-consensus"></a>Bernadette Charron-Bost, Matthias Függer, Thomas Nowak. *Approximate Consensus in Highly Dynamic Networks: The Role of Averaging Algorithms*, arXiv:1408.0620.
-- <a name="dual-averaging"></a>John Duchi, Alekh Agarwal, Martin Wainwright. *Dual Averaging for Distributed Optimization: Convergence Analysis and Network Scaling*,  	arXiv:1005.2012.
-- <a name="lili1"></a>Lili Su, Nitin Vaidya. *Fault-Tolerant Multi-Agent Optimization: Part III*, arXiv:1509.01864.
-- <a name="lili2"></a>Lili Su, Nitin H. Vaidya. *Fault-Tolerant Distributed Optimization (Part IV): Constrained Optimization with Arbitrary Directed Networks*,  	arXiv:1511.01821.
+1. <a name="approx-consensus"></a>Bernadette Charron-Bost, Matthias Függer, Thomas Nowak. *Approximate Consensus in Highly Dynamic Networks: The Role of Averaging Algorithms*, arXiv:1408.0620.
+2. <a name="dual-averaging"></a>John Duchi, Alekh Agarwal, Martin Wainwright. *Dual Averaging for Distributed Optimization: Convergence Analysis and Network Scaling*,  	arXiv:1005.2012.
+3. <a name="lili1"></a>Lili Su, Nitin Vaidya. *Fault-Tolerant Multi-Agent Optimization: Part III*, arXiv:1509.01864.
+4. <a name="lili2"></a>Lili Su, Nitin H. Vaidya. *Fault-Tolerant Distributed Optimization (Part IV): Constrained Optimization with Arbitrary Directed Networks*,  	arXiv:1511.01821.
 
 ## About
 This project was my Senior Thesis during the Fall of 2015 under Professor Nitin Vaidya(University of Illinois at Urbana-Champaign). For questions or comments, email Simon Peter - speter3@illinois.edu.
